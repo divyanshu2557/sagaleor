@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Search, TrendingUp, Flame, Star, ArrowRight, Filter, Heart } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
 export function DiscoverClient({ trendingPosts }: { trendingPosts: any[] }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +25,7 @@ export function DiscoverClient({ trendingPosts }: { trendingPosts: any[] }) {
     return true;
   });
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -35,7 +35,7 @@ export function DiscoverClient({ trendingPosts }: { trendingPosts: any[] }) {
     }
   };
 
-  const item = {
+  const item: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
   };
