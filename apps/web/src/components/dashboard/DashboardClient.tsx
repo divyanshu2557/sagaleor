@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { CloudSun, ChevronRight, AlertTriangle, ShoppingBag, CalendarDays, Heart, Flame, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import Link from "next/link";
 
 export function DashboardClient({ 
@@ -65,7 +65,7 @@ export function DashboardClient({
   }, []);
 
   // Animation variants
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -75,7 +75,7 @@ export function DashboardClient({
     }
   };
 
-  const item = {
+  const item: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
   };
