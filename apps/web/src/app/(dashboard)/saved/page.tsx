@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { SavedClient } from "@/components/saved/SavedClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function SavedPage() {
   const session = await getServerSession(authOptions);
 

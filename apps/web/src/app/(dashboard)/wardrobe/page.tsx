@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { WardrobeClient } from "@/components/wardrobe/WardrobeClient";
 
+export const dynamic = "force-dynamic";
+
 function InsightStat({ label, value }: { label: string, value: string }) {
   return (
     <div className="flex flex-col">

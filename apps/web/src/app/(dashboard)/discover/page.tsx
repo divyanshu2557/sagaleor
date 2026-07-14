@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import { DiscoverClient } from "@/components/discover/DiscoverClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function DiscoverPage() {
   // Fetch real trending posts from the database (most liked)
   const trendingPosts = await prisma.post.findMany({

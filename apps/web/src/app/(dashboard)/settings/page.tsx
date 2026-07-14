@@ -5,6 +5,8 @@ import prisma from "@/lib/prisma";
 import { SettingsDashboard } from "@/components/settings/SettingsDashboard";
 import { getUserOrders } from "@/actions/orders";
 
+export const dynamic = "force-dynamic";
+
 export default async function SettingsPage() {
   const session = await getServerSession(authOptions);
 

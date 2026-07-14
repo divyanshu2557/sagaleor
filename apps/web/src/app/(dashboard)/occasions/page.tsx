@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { OccasionsClient } from "@/components/occasions/OccasionsClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function OccasionsPage() {
   const session = await getServerSession(authOptions);
 

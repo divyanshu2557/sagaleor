@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { StyleDNAClient } from "@/components/styledna/StyleDNAClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function StyleDNAPage() {
   const session = await getServerSession(authOptions);
 

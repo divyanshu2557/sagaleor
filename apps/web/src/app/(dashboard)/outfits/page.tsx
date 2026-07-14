@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { OutfitsClient } from "@/components/outfits/OutfitsClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function OutfitsPage() {
   const session = await getServerSession(authOptions);
 

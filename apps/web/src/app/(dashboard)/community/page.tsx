@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { CommunityClient } from "@/components/community/CommunityClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function CommunityPage() {
   const session = await getServerSession(authOptions);
 

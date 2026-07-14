@@ -3,6 +3,9 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { MessagesClient } from "@/components/messages/MessagesClient";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export default async function MessagesPage() {
   const session = await getServerSession(authOptions);
