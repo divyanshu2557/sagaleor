@@ -26,12 +26,12 @@ export async function analyzeWardrobe(): Promise<WardrobeAnalysis> {
 
   const items = user.wardrobeItems;
   const totalItems = items.length;
-  const totalValue = items.reduce((acc, item) => acc + item.price, 0);
-  const totalWorn = items.reduce((acc, item) => acc + item.wornCount, 0);
+  const totalValue = items.reduce((acc: number, item: any) => acc + item.price, 0);
+  const totalWorn = items.reduce((acc: number, item: any) => acc + item.wornCount, 0);
   const costPerWear = totalWorn > 0 ? (totalValue / totalWorn).toFixed(1) : "0";
 
   // Compute category breakdown
-  const categoryCounts = items.reduce((acc, item) => {
+  const categoryCounts = items.reduce((acc: Record<string, number>, item: any) => {
     acc[item.category] = (acc[item.category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
