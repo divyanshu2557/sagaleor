@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  phone         String?
+  theme         String         @default("system")
+  language      String         @default("en-IN")
+  aiPersonalize Boolean        @default(true)
+  shareData     Boolean        @default(false)
+  styleScore    Int            @default(0)
+  createdAt     DateTime       @default(now())
+  
+  styleDna      StyleDNA?
+  wardrobeItems WardrobeItem[]
+  recommendations OutfitRecommendation[]
+  orders        Order[]
+  conversations Conversation[]
+  outfits       Outfit[]
+  posts         Post[]
+  comments      Comment[]
+  occasions     Occasion[]
+  collections   Collection[]
+  savedItems    SavedItem[]
+  
+  followers     User[]   @relation("UserFollows")
+  following     User[]   @relation("UserFollows")
+}
+
+model StyleDNA {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  uniquenessScore Int
+  faceShape       String?
+  bodyShape       String?
+  skinTone        String?
+  undertone       String?
+}
+
+model WardrobeItem {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  price     Float
+  wornCount Int      @default(0)
+  category  String
+  season    String?
+  color     String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  outfits   Outfit[]
+}
+
+model Outfit {
+  id        String         @id @default(uuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  occasion  String?
+  items     WardrobeItem[]
+  createdAt DateTime       @default(now())
+  
+  occasions Occasion[]
+}
+
+model OutfitRecommendation {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  subtitle    String?
+  imageUrl    String
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id              String       @id @default(uuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  total           Float
+  status          String       @default("Pending") // Pending, Processing, Shipped, Delivered
+  trackingNumber  String?
+  createdAt       DateTime     @default(now())
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  name      String
+  price     Float
+  quantity  Int      @default(1)
+  imageUrl  String?
+}
+
+model Conversation {
+  id            String    @id @default(uuid())
+  participantId String
+  user          User      @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  otherName     String
+  otherAvatar   String
+  isAI          Boolean   @default(false)
+  updatedAt     DateTime  @default(now()) @updatedAt
+  messages      Message[]
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String
+  imageUrl  String?
+  likes     Int       @default(0)
+  createdAt DateTime  @default(now())
+  
+  comments  Comment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text      String
+  createdAt DateTime @default(now())
+}
+
+model Occasion {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  date      DateTime
+  type      String
+  location  String?
+  outfitId  String?
+  outfit    Outfit?  @relation(fields: [outfitId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Collection {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  cover     String?
+  items     SavedItem[]
+  createdAt DateTime @default(now())
+}
+
+model SavedItem {
+  id           String      @id @default(uuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  name         String
+  imageUrl     String
+  sourceUrl    String?
+  type         String      @default("inspiration")
+  createdAt    DateTime    @default(now())
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String       // "USER" or "OTHER"
+  text           String
+  imageUrl       String?
+  createdAt      DateTime     @default(now())
+}
